@@ -5,7 +5,6 @@ class ModdlewareInterception {
         responseHandler: (Response res) => res.change(
           headers: {
             'content-type': 'application/json',
-            'xpto': '123',
           },
         ),
       );

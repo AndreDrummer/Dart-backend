@@ -3,7 +3,7 @@ import 'generic_service.dart';
 import '../utils/list_extension.dart';
 
 class NoticiaService implements GenericService<NoticiaModel> {
-  List<NoticiaModel> _fakeDB = [];
+  final List<NoticiaModel> _fakeDB = [];
 
   @override
   bool delete(int id) {
