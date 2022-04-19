@@ -12,6 +12,7 @@ class LoginApi extends Api {
   @override
   Handler getHandler({
     List<Middleware>? middlewares,
+    bool isSecurity = false,
   }) {
     Router router = Router();
 
