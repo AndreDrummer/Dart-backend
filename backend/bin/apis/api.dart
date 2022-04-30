@@ -27,7 +27,9 @@ abstract class Api {
 
     var pipe = Pipeline();
 
-    middlewares.forEach((m) => pipe = pipe.addMiddleware(m));
+    for (var m in middlewares) {
+      pipe = pipe.addMiddleware(m);
+    }
 
     return pipe.addHandler(router);
   }

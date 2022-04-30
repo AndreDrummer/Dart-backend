@@ -17,8 +17,8 @@ class BlogApi extends Api {
     Router router = Router();
 
     // Listagem
-    router.get('/blog/noticias', (Request req) {
-      List<NoticiaModel> noticias = _service.findAll();
+    router.get('/blog/noticias', (Request req) async {
+      List<NoticiaModel> noticias = await _service.findAll();
       List<Map> noticiasMap = noticias.map((e) => e.toJson()).toList();
       return Response.ok(
         jsonEncode(
@@ -37,14 +37,14 @@ class BlogApi extends Api {
     // /blog/noticias?id=1 // update
     router.put('/blog/noticias', (Request req) {
       // _service.save('');
-      String? id = req.url.queryParameters['id'];
+      req.url.queryParameters['id'];
       return Response.ok('Choveu hoje');
     });
 
     // /blog/noticias?id=1 // delete
     router.delete('/blog/noticias', (Request req) {
       // _service.delete(1);
-      String? id = req.url.queryParameters['id'];
+      req.url.queryParameters['id'];
       return Response.ok('Choveu hoje');
     });
 

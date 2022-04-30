@@ -7,7 +7,7 @@ class DependencyInjector {
 
   factory DependencyInjector() => _singleton;
 
-  final _instanceMap = Map<Type, _InstanceGenerator<Object>>();
+  final _instanceMap = <Type, _InstanceGenerator<Object>>{};
 
   void register<T extends Object>(
     InstanceCreator<T> instance, {
@@ -21,7 +21,7 @@ class DependencyInjector {
     throw Exception('[ERROR] -> Instance ${T.toString()} not found');
   }
 
-  call<T extends Object>() => get<T>();
+  T call<T extends Object>() => get<T>();
 }
 
 class _InstanceGenerator<T> {
