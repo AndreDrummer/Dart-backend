@@ -32,6 +32,12 @@ class UsuarioModel {
     );
   }
 
+  factory UsuarioModel.fromEmail(Map<String, dynamic> map) {
+    return UsuarioModel()
+      ..id = map['id']?.toInt()
+      ..password = map['password'];
+  }
+
   factory UsuarioModel.fromRequest(Map<String, dynamic> map) {
     return UsuarioModel()
       ..nome = map['nome']

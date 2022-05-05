@@ -1,4 +1,6 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
+import 'package:password_dart/password_dart.dart';
+
 import '../dao/usuario_dao.dart';
 import '../models/usuario_model.dart';
 import 'generic_service.dart';
@@ -22,7 +24,13 @@ class UsuarioService implements GenericService<UsuarioModel> {
     if (value.id != null) {
       return _usuarioDAO.update(value);
     } else {
+      final hash = Password.hash(value.password!, PBKDF2());
+      value.password = hash;
+
       return _usuarioDAO.create(value);
     }
   }
+
+  Future<UsuarioModel?> findByEmail(String email) async =>
+      _usuarioDAO.findByEmail(email);
 }

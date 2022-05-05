@@ -1,6 +1,3 @@
-// ignore_for_file: public_member_api_docs, sort_constructors_first
-import 'package:mysql1/mysql1.dart';
-
 import '../infra/database/db_configuration.dart';
 import '../models/usuario_model.dart';
 import 'dao.dart';
@@ -12,7 +9,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<bool> create(UsuarioModel value) async {
-    var result = await _exec(
+    var result = await _dbConfiguration.execQuery(
       'INSERT INTO usuarios (nome, email, password) VALUES (?, ?, ?)',
       [value.nome, value.email, value.password],
     );
@@ -24,7 +21,8 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<bool> delete(int id) async {
-    var result = await _exec('DELETE FROM usuarios where id = ?', [id]);
+    var result = await _dbConfiguration
+        .execQuery('DELETE FROM usuarios where id = ?', [id]);
     bool success = result.affectedRows! > 0;
 
     return success;
@@ -32,7 +30,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<List<UsuarioModel>> findAll() async {
-    var result = await _exec('SELECT * FROM usuarios');
+    var result = await _dbConfiguration.execQuery('SELECT * FROM usuarios');
     return result
         .map((r) => UsuarioModel.fromMap(r.fields))
         .toList()
@@ -41,7 +39,8 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<UsuarioModel?> findOne(int id) async {
-    var result = await _exec('SELECT * FROM usuarios where id = ?', [id]);
+    var result = await _dbConfiguration
+        .execQuery('SELECT * FROM usuarios where id = ?', [id]);
 
     var affectedRows = result.affectedRows;
 
@@ -52,7 +51,7 @@ class UsuarioDAO implements DAO<UsuarioModel> {
 
   @override
   Future<bool> update(UsuarioModel value) async {
-    var result = await _exec(
+    var result = await _dbConfiguration.execQuery(
       'UPDATE usuarios set nome = ?, password = ? where id = ?',
       [value.nome, value.password, value.id],
     );
@@ -61,9 +60,12 @@ class UsuarioDAO implements DAO<UsuarioModel> {
     return success;
   }
 
-  Future<Results> _exec(String sql, [List? params]) async {
-    var connection = await _dbConfiguration.connection;
-    var result = await connection.query(sql, params);
-    return result;
+  Future<UsuarioModel?> findByEmail(String email) async {
+    var result = await _dbConfiguration
+        .execQuery('SELECT * from usuarios where email = ?', [email]);
+
+    return result.affectedRows == 0
+        ? null
+        : UsuarioModel.fromEmail(result.first.fields);
   }
 }

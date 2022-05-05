@@ -28,4 +28,11 @@ class MySqlDBConfiguration implements DBConfiguration {
       ),
     );
   }
+
+  @override
+  Future<Results> execQuery(String sql, [List? params]) async {
+    var connection = await this.connection;
+    var result = await connection.query(sql, params);
+    return result;
+  }
 }
